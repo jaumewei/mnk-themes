@@ -1,0 +1,77 @@
+/**/
+
+.coders-theme-manager{ margin-right: 30px; }
+
+.coders-theme-manager .inline{ display: inline-block; vertical-align: top; }
+.coders-theme-manager .right{ float: right; }
+.coders-theme-manager .clearfix:before{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+.coders-theme-manager ul.list-block > li.item{
+        vertical-align: top;
+        display: inline-block;
+        float: left;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 8px;
+        border-radius: 3px;
+        position: relative;
+        /*background-color: rgba(255,255,255,0.55);*/
+}
+
+@media only screen and (min-width: 1200px){
+    .coders-theme-manager ul.list-block.columns-4 > li.item{
+        width: 22%;
+        height: 120px;
+        margin: 0 4% 4% 0;
+    }
+    .coders-theme-manager ul.list-block.columns-3 > li.item{
+        width: 32%;
+        height: 120px;
+        margin: 0 2% 2% 0;
+    }
+    .coders-theme-manager ul.list-block.columns-2 > li.item{
+        width: 48%;
+        height: 120px;
+        margin: 0 4% 4% 0;
+    }
+    .coders-theme-manager ul.list-block.columns-2 > li.item:nth-child(2n){ margin-right: 0; }
+    .coders-theme-manager ul.list-block.columns-3 > li.item:nth-child(3n){ margin-right: 0; }
+    .coders-theme-manager ul.list-block.columns-4 > li.item:nth-child(4n){ margin-right: 0; }
+}
+
+.coders-theme-manager ul.list-block > li.item.white{ background-color: #ffffff; }
+
+.coders-theme-manager ul.list-block > li.item.status-enabled{ background-color: rgba(255,255,255,1); }
+
+.coders-theme-manager ul.list-block > li.item.status-disabled{ background-color: rgba(255,255,255,0.25); }
+
+.coders-theme-manager ul.list-block > li.item > .button.full-size{
+    width: 100%;
+    height: 100%;
+    text-align:center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 20px;
+}
+.coders-theme-manager ul.list-block > li.item > label{
+    font-weight: bold;
+}
+
+.coders-theme-manager ul.list-block > li.item input[type="checkbox"].field-input{ float: left; }
+.coders-theme-manager ul.list-block > li.item input[type="checkbox"] + label{
+    display: block;
+    text-align: center;
+    padding: 4px;
+    transition: 250ms ease-out;
+    color: #844;
+}
+.coders-theme-manager ul.list-block > li.item input[type="checkbox"]:checked + label{
+    color: #484;
+}
+

@@ -1,0 +1,52 @@
+/*Estilo de widget de posts en coders-widgetpack*/
+.coders_posts_widget .post-list-wrapper{ display: block; }
+.coders_posts_widget .post-list-wrapper:after{
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+.coders_posts_widget .post-list-wrapper > .post{
+    position: relative;
+}
+.coders_posts_widget .post-list-wrapper > .post > .thumbnail,
+.coders_posts_widget .post-list-wrapper > .post > .post-wrapper{
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+}
+.coders_posts_widget .post-list-wrapper > .post > .thumbnail{
+    overflow: hidden;
+}
+.coders_posts_widget .post-list-wrapper > .post > .thumbnail.display-landscape{
+    height: 100%;
+    width: auto;
+}
+.coders_posts_widget .post-list-wrapper > .post > .thumbnail.display-portrait{
+    height: auto;
+    width: 100%;
+}
+.coders_posts_widget .post-list-wrapper > .post > .thumbnail.display-boxed{
+    height: 100%;
+    width: 100%;
+}
+.coders_posts_widget .post-list-wrapper > .post > .thumbnail img{
+    width: 100%;
+    height: auto;
+}
+.coders_posts_widget .post-list-wrapper > .post > .post-wrapper{
+    background-color: transparent;  
+}
+@media only screen and (min-width: 768px){
+    .coders_posts_widget .post-list-wrapper.post-items-4 > .post{
+        float: left;
+        vertical-align: top;
+        width: 22%;
+        margin: 0 4% 2% 0;
+    }
+    .coders_posts_widget .post-list-wrapper.post-items-4 > .post:nth-child(4n){
+        margin-right: 0;
+    }
+}
+
+
+
