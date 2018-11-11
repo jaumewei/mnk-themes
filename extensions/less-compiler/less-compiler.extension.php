@@ -23,7 +23,7 @@ final class LessCompiler extends \CODERS\Extension{
      * Compilar siempre
      * @var boolean
      */
-    private $_alwaysCompile = true;
+    private $_alwaysCompile = TRUE;
     
     /**
      * @param mixed $settings
@@ -46,6 +46,7 @@ final class LessCompiler extends \CODERS\Extension{
      * @return type
      */
     protected final function setup($settings) {
+        
         /**
          * Registrar los componentes del plugin
          */
@@ -66,7 +67,6 @@ final class LessCompiler extends \CODERS\Extension{
     public final function init() {
 
         if( !is_admin( ) && !is_null($this->_compiler ) ){
-
             //inicializa la plantilla LESS
             //$this->initializeInputPath();
 
@@ -102,7 +102,7 @@ final class LessCompiler extends \CODERS\Extension{
 
             $layout = \CodersThemeManager::instance()->getTheme();
 
-            return sprintf('%sless/%s.less',$layout->getThemePath(),$this->_input);
+            return sprintf('%s/less/%s.less',$layout->getThemePath(),$this->_input);
         }
         
         return sprintf('%s/less/%s.less', CodersThemeManager::themePath(), $this->_input );
@@ -112,26 +112,12 @@ final class LessCompiler extends \CODERS\Extension{
      */
     private final function getOutputPath( ){
 
-        if( \CodersThemeManager::loaded() ){
-
-            $layout = \CodersThemeManager::instance()->getTheme();
-
-            return sprintf('%sassets/%s.css',$layout->getThemePath(),$this->_output);
-        }
-        
         return sprintf('%s/css/%s.css', CodersThemeManager::themePath(), $this->_output );
     }
     /**
      * @return URL
      */
     private final function getOutputUrl( ){
-        
-        if( \CodersThemeManager::loaded() ){
-
-            $layout = \CodersThemeManager::instance()->getTheme();
-
-            return sprintf('%sassets/%s.css',$layout->getThemeUrl(),$this->_output);
-        }
         
         return sprintf('%s/css/%s.css', CodersThemeManager::themeURL(), $this->_output );
     }
@@ -144,14 +130,14 @@ final class LessCompiler extends \CODERS\Extension{
         $less = $this->getInputPath();
 
         $css = $this->getOutputPath();
-        
+
         if ( !is_null($this->_compiler) && file_exists( $less ) ) {
 
             try{
                 $success = ($this->_alwaysCompile) ?
                         $this->_compiler->compileFile($less, $css) :
                         $this->_compiler->checkedCompile($less, $css);
-                
+
                 if(is_bool($success) && !$success){
                     //compilación condicional (boolean)
                 }
@@ -160,7 +146,8 @@ final class LessCompiler extends \CODERS\Extension{
                 }
             }
             catch (Exception $ex) {
-                die($ex->getMessage());
+                //die($ex->getMessage());
+                //reportar por la mensajería wordpress
             }
         }
 
@@ -170,11 +157,11 @@ final class LessCompiler extends \CODERS\Extension{
      * Genera la lista de plantillas LESS
      */
     public final function queue( ) {
-
+        
         if ( $this->compile( ) ) {
 
             //Si existe un CSS de salida, encolarlo en el hook
-            wp_enqueue_style(CODERS_THEME_TEMPLATE_CSS, $this->getOutputUrl( ) );
+            wp_enqueue_style( sprintf('%s-less',$this->_input) , $this->getOutputUrl( ) );
 
             return true;
         }

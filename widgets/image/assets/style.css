@@ -1,0 +1,21 @@
+/* coders image widget */
+.widget.coders-image-widget .media-wrapper{
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+.widget.coders-image-widget .media-wrapper img.media{
+    width: 100%;
+    height: auto;
+}
+.widget.coders-image-widget .media-wrapper img.media.landscape{
+    width: auto;
+    height: 100%;
+}
+.widget.coders-image-widget .media-wrapper img.media.portrait{
+    width: 100%;
+    height: auto;
+}
+.widget.coders-image-widget.default .media-wrapper{
+}

@@ -327,8 +327,8 @@ class Theme extends \CODERS\Document{
      */
     protected function getPart( $content ){
         
-        $layout_path = sprintf( '%shtml/%s.php', $this->getThemePath() , strtolower( $content ) );
-
+        $layout_path = sprintf( '%s/html/%s.php', $this->getThemePath() , strtolower( $content ) );
+        
         return file_exists($layout_path) ?
                 $layout_path :
                 sprintf( '%s/templates/%s.php', \CodersThemeManager::pluginPath(),$content );
@@ -518,36 +518,22 @@ class Theme extends \CODERS\Document{
      * @return \CODERS\Theme
      */
     private final function displayTheme( $block_id , $content ){
-        
         if(is_string($block_id)){
-            
             $this->blockStart( $block_id );
-        }
-
-        if( is_string( $content ) ){
-            /**
-             * si el contenido es un string, se delega al renderer para:
-             * - cargar una vista (ruta html)
-             * - ejecutar un callback renderBlock()
-             */
-            $this->render( $content );
-        }
-        elseif(is_array( $content ) ){
-            /**
-             * si el contenido es un array, iterar recursivamenete
-             * para generar contenedores internos
-             */
-            foreach ( $content as $block => $child_blocks ) {
-
-                $this->displayTheme( $block, $child_blocks );
+            if( is_string( $content ) ){
+                $this->render( $content );
             }
-        }
-
-        if(is_string($block_id)){
-
+            elseif( is_array( $content ) ){
+                foreach ( $content as $child_block => $sub_content ) {
+                    $this->displayTheme( $child_block, $sub_content );
+                }
+            }
             $this->blockEnd( $block_id ); 
         }
-        
+        elseif(is_numeric($block_id)){
+            //solo un wrapper vacío
+            $this->render($content);
+        }
         return $this;
     }
     /**
@@ -746,13 +732,13 @@ class Theme extends \CODERS\Document{
      * @param string $block
      * @return \CODERS\Theme
      */
-    protected final function render( $block , array $content = null ){
+    protected final function render( $block ){
 
         $method = sprintf('render%sBlock',$block);
 
         if( method_exists($this, $method)){
             //printf('<!-- custom:%s -->',$block);
-            $this->$method( $content );
+            $this->$method( );
         }
         elseif( $block === 'site-logo' ){
             //printf('<!-- logo:%s -->',$block);
@@ -771,11 +757,11 @@ class Theme extends \CODERS\Document{
         else{
             $template_part = $this->getPart($block);
             //printf('<!-- part:%s -->',$block);
+            $this->blockStart( $block );
             if(file_exists($template_part)){
-                $this->blockStart( $block );
                 require $template_part;
-                $this->blockEnd( $block );
             }
+            $this->blockEnd( $block );
         }
         
         return $this;

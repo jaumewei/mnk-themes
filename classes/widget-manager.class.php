@@ -102,7 +102,7 @@ final class WidgetManager{
         if(file_exists( self::widgetAsset($asset,$widget_id))){
             return !is_null($widget_id) ?
                 //busca un asset en la carpeta del widget
-                sprintf('%s/widgets/%s/assets/%s', \CodersThemeManager::pluginPath(),$widget_id,$asset) :
+                sprintf('%s/widgets/%s/assets/%s', \CodersThemeManager::pluginURL(),$widget_id,$asset) :
                 //busca un asset generico del plugin
                 sprintf('%sassets/%s', \CodersThemeManager::pluginURL(),$asset) ;
         }

@@ -17,7 +17,7 @@ class CodersButtonWidget extends \CODERS\WidgetBase{
      * @return string Descripción
      */
     public static final function defineWidgetDescription() {
-        return __( 'Enlace y bot&oacute;n' , 'coders_theme_manager' );
+        return __( 'Bot&oacute;n y enlace personalizado' , 'coders_theme_manager' );
     }
     /**
      * @return \CodersButtonWidget

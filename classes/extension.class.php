@@ -88,7 +88,7 @@ abstract class Extension{
         $path = sprintf('%slib/%s.php', $this->getPath(), $lib );
         
         if(file_exists($path) ){
-        
+
             require_once $path;
             
             return true;

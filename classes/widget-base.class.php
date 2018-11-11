@@ -55,25 +55,15 @@ abstract class WidgetBase extends \WP_Widget {
      */
     function __construct( ) {
         
-        /*$widget_id = sprintf('coders-%s-widget' ,$this->getWidgetId() );
-        
-        $options = array(
-            'classname' => preg_replace('/-/', '_', $widget_id),
-        );
-        
-        if(strlen($widget_desc)){
-            $options['description'] = $widget_desc;
-        } */
-
-        //$this->widget_class = $options['class'];
-        //$this->widget_class = $this->defineWidgetClass();
         $this->registerWidgetInputs();
         
-        //parent::__construct( $widget_id, $widget_name , $options );
         parent::__construct( 
                 $this->defineWidgetId(),
                 $this->defineWidgetTitle(),
                 $this->defineWidgetOptions() );
+        //esto permite tener un control mas generalizado sobre las css del widget
+        //truñopress agrega el prefijo widget_ delante, destrozando un poco el acceso en segun que contextos
+        $this->widget_options['classname'] = $this->defineWidgetClass();
 
         //registrar estilos y scripts automáticamente
         if( is_admin() ){
@@ -97,7 +87,7 @@ abstract class WidgetBase extends \WP_Widget {
      */
     protected static function defineWidgetClass(){
         
-        return preg_replace('/-/', '_', self::defineWidgetId());
+        return preg_replace('/_/', '-', self::defineWidgetId());
     }
     /**
      * Sobrescribir con el título del widget

@@ -32,7 +32,7 @@ class CodersImageWidget extends \CODERS\WidgetBase{
      * @return string Descripción
      */
     public static final function defineWidgetDescription() {
-        return __( 'Widget CODERS para configurar una imagen con varias opciones' , 'coders_theme_manager' );
+        return __( 'Imagen configurable con varias opciones' , 'coders_theme_manager' );
     }
     /**
      * Declaración de parámetros scripts y dependencias del widget
@@ -42,13 +42,11 @@ class CodersImageWidget extends \CODERS\WidgetBase{
 
         return $this->inputRegister('title', parent::TYPE_TEXT, '', __('T&iacute;tulo','coders_theme_manager'))
                 ->inputRegister('media', parent::TYPE_MEDIA, 0, __('Im&aacute;gen','coders_theme_manager'))
-                //->inputRegister('size', parent::TYPE_SELECT, self::SIZE_THUMBNAIL, __('Tamaño','coders_theme_manager'))
-                //->inputRegister('type', parent::TYPE_SELECT, self::TYPE_DEFAULT, __('Tipo','coders_theme_manager'))
                 ->inputRegister('text', parent::TYPE_TEXTAREA, '', __('Texto','coders_theme_manager'))
                 ->inputRegister('link', parent::TYPE_TEXT, '', __('Enlace','coders_theme_manager'),'',array('placeholder'=>'http://'))
                 ->inputRegister('view', parent::TYPE_SELECT, 'default', __('Presentaci&oacute;n','coders_theme_manager'))
                 ->registerWidgetScript('lightbox','jquery')
-                ->registerWidgetStyle('lightbox');
+                ->registerWidgetStyle('lightbox')->registerWidgetStyle('style');
     }
     
     /**

@@ -22,7 +22,7 @@ class CodersPostsWidget extends \CODERS\WidgetBase{
      * @return string Título
      */
     public static final function defineWidgetTitle() {
-        return __( 'Posts destacados' , 'coders_theme_manager' );
+        return __( 'Posts' , 'coders_theme_manager' );
     }
     /**
      * @return string Descripción
