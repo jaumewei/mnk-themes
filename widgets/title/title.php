@@ -1,19 +1,10 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget demo para probar el entorno
+ * Título
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 final class CodersTitleWidget extends \CODERS\WidgetBase {
-    
-    const TITLE_H1 = 'h1';
-    const TITLE_H2 = 'h2';
-    const TITLE_H3 = 'h3';
-    const TITLE_H4 = 'h4';
-    
-    const TARGET_SELF = '_self';
-    const TARGET_BLANK = '_blank';
-    const TARGET_AUTO = '_auto';
-    const TARGET_ANCHOR = 'anchor';
-    
     /**
      * @return string Título
      */

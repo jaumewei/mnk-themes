@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Botón personalizable
+ * Botón
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 class CodersButtonWidget extends \CODERS\WidgetBase{
     

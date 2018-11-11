@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Enlace de contacto
+ * Contacto
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 final class CodersContactWidget extends \CODERS\WidgetBase {
 

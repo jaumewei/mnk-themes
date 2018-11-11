@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget de Slideshow
+ * Barra de navegación
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 class CodersBreadcrumbWidget extends \CODERS\WidgetBase{
     /**

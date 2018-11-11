@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget de posts (revertido a la versión inicial de solo posts que luego la liamos
+ * Listado de posts
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-05-15
  */
 class CodersPostsWidget extends \CODERS\WidgetBase{
     

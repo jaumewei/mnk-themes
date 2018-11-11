@@ -1,8 +1,10 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget del logo del tema
+ * Logo del tema
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
-class CodersSiteLogoWidget extends \CODERS\WidgetBase {
+class CodersLogoWidget extends \CODERS\WidgetBase {
     
     const SIZE_FULL = 'full';
     const SIZE_LARGE = 'large';
@@ -13,13 +15,13 @@ class CodersSiteLogoWidget extends \CODERS\WidgetBase {
      * @return string Título
      */
     public static final function defineWidgetTitle() {
-        return __( 'Logo de la WEB' , 'coders_theme_manager' );
+        return __( 'Logo' , 'coders_theme_manager' );
     }
     /**
      * @return string Descripción
      */
     public static final function defineWidgetDescription() {
-        return __( 'Widget CODERS para mostrar el logo del tema' , 'coders_theme_manager' );
+        return __( 'Logo del tema' , 'coders_theme_manager' );
     }
     /**
      * @return \CodersSiteLogoWidget

@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget demo para probar el entorno
+ * Cabecera
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 final class CodersHeaderWidget extends \CODERS\WidgetBase {
     

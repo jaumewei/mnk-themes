@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Imagen y galería
+ * Imagen
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 class CodersImageWidget extends \CODERS\WidgetBase{
 
@@ -13,8 +15,6 @@ class CodersImageWidget extends \CODERS\WidgetBase{
     const TYPE_ICON = 'icon';
     const TYPE_OVERLAY = 'overlay';
     const TYPE_BACKGROUND = 'background';
-    const TYPE_LIGHTBOX = 'lightbox';
-    //const TYPE_LIGHTBOX_GALLERY = 'lightbox_gallery';
     
     /**
      * Lista de fotos registradas en la navegación de la galería del lightbox
@@ -45,8 +45,7 @@ class CodersImageWidget extends \CODERS\WidgetBase{
                 ->inputRegister('text', parent::TYPE_TEXTAREA, '', __('Texto','coders_theme_manager'))
                 ->inputRegister('link', parent::TYPE_TEXT, '', __('Enlace','coders_theme_manager'),'',array('placeholder'=>'http://'))
                 ->inputRegister('view', parent::TYPE_SELECT, 'default', __('Presentaci&oacute;n','coders_theme_manager'))
-                ->registerWidgetScript('lightbox','jquery')
-                ->registerWidgetStyle('lightbox')->registerWidgetStyle('style');
+                ->registerWidgetStyle('style');
     }
     
     /**
@@ -69,8 +68,6 @@ class CodersImageWidget extends \CODERS\WidgetBase{
             self::TYPE_ICON => 'Icono',
             self::TYPE_OVERLAY => 'Superposici&oacute;n',
             self::TYPE_BACKGROUND => 'Imagen de fondo',
-            self::TYPE_LIGHTBOX => 'LightBox',
-            //self::TYPE_LIGHTBOX_GALLERY => 'Galería LightBox',
         );
     }
     /**

@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget para mostrar los créditos de la web (configuración WP)
+ * Créditos del tema
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-11-11
  */
 class CodersCreditsWidget extends \CODERS\WidgetBase{
     

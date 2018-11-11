@@ -1,6 +1,8 @@
 <?php defined('ABSPATH') or die;
 /**
- * Widget de Slideshow
+ * Slideshow de posts
+ * @author Jaume Llopis <jaume@mnkcoders.com>
+ * @version 2018-05-15
  */
 class CodersPostSlideshowWidget extends \CODERS\WidgetBase{
     
