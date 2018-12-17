@@ -24,6 +24,14 @@ class Theme extends \CODERS\Document{
     const ERROR_404 = '404';
     
     const THEME_CONTENT = 'content';
+    const THEME_LOGO_DEFAULT_WIDTH = 300;
+    const THEME_LOGO_DEFAULT_HEIGHT = 90;
+    const THEME_H1 = 'h1';
+    const THEME_H2 = 'h2';
+    const THEME_H3 = 'h3';
+    const THEME_H4 = 'h4';
+    const THEME_H5 = 'h5';
+    const THEME_H6 = 'h6';
     
     const HOOK_THEME_SETUP = 'after_setup_theme';
     /**
@@ -41,9 +49,9 @@ class Theme extends \CODERS\Document{
         'block_class' => 'container',
         'wrapper_class' => 'wrap',
         'menu_class' => 'nav-menu',
-        'sidebar_header' => 'h2',
-        'logo_width' => 300,
-        'logo_height' => 90,
+        'sidebar_header' => self::THEME_H2,
+        'logo_width' => self::THEME_LOGO_DEFAULT_WIDTH,
+        'logo_height' => self::THEME_LOGO_DEFAULT_HEIGHT,
     );
     /**
      * Setup del layout
@@ -55,9 +63,6 @@ class Theme extends \CODERS\Document{
                 ->initialize()              //luego inicializa el framework
                 ->registerThemeSetup();     //finalmente inicializa modificaciones del tema
 
-        //inicializa el tema
-        //$this->initialize()->themeSetup(); 
-        
         parent::__construct();
     }
     /**
@@ -447,11 +452,19 @@ class Theme extends \CODERS\Document{
         if( !isset( $this->_support[self::SUPPORT_THEME_SIDEBAR][$sidebar])){
             $this->_support[self::SUPPORT_THEME_SIDEBAR][$sidebar] = array(
                 'name' => $title,
-                'description' => strlen($description) ? $description : $title,
+                'description' => strlen($description) ? $description : $this->textSidebarDescription(),
                 'header' => $header,
             );
         }
         return $this;
+    }
+    /**
+     * Define una descripción genérica para el Sidebar
+     * Sobrecargar para sobrescribir el mensaje
+     * @return String
+     */
+    protected function textSidebarDescription(){
+        return __('Arrastra y suelta widgets aqu&iacute;','coders_theme_manager');
     }
     /**
      * Visualiza la página
