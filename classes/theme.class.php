@@ -678,15 +678,6 @@ class Theme extends \CODERS\Document{
      */
     public final function displayMenu( $menu , $class = '' ){
 
-        if( !is_array($class)){
-             if(is_string($class)){
-                 $class = strlen($class) ? array( $class ) : array();
-             }
-             else{
-                 $class = array( strval($class) );
-             }
-        }
-
         if( ($suffix = strrpos($menu, '-menu')) !== false ){
 
             $menu = substr($menu, 0 , $suffix );
@@ -694,12 +685,30 @@ class Theme extends \CODERS\Document{
         
         //define personalizaciones del tema para el menu
         if( has_nav_menu( $menu ) ){
-            printf('<div class="nav-menu-wrapper %s %s" id="%s-menu-container">',
+
+            if( !is_array($class)){
+                 if(is_string($class)){
+                     $class = strlen($class) ? array( $class ) : array();
+                 }
+                 else{
+                     $class = array( strval($class) );
+                 }
+            }
+            
+            $class[] = $this->menu_class;
+            $class[] = $menu . '-menu';
+            $class[] = 'container';
+
+            /*printf('<div class="nav-menu-wrapper %s %s" id="%s-menu-container">',
                     $menu,//menu en la clase
                     implode(' ', $class), //clase personalizada
-                    $menu); //identificador de menu
-            wp_nav_menu( array( 'theme_location' => $menu, 'menu_class' => $this->menu_class ) );
-            print '</div>';
+                    $menu); //identificador de menu */
+            print wp_nav_menu( array(
+                    'theme_location' => $menu,
+                    'menu_class' => implode(' ', $class),
+                    'container' => FALSE,
+                    'echo' => FALSE ));
+            //print '</div>';
         }
         else{
             //$this->docNotFound($menu);

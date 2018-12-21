@@ -702,12 +702,13 @@ abstract class WidgetBase extends \WP_Widget {
         
         print $args['before_widget'];
         
-        $this->display( $instance , $args );
+        $this->display( $this->inputImport( $instance ) , $args );
         
         print $args['after_widget'];
     }
     /**
      * @param array $instance Datos dela instancia para mostrar el widget
+     * @param array $args contiene las definiciones del encabezado y opciones del widget, se heredan 
      */
     abstract protected function display( $instance , $args = null );
 }

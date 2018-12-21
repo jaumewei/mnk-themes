@@ -9,10 +9,13 @@ final class CodersContactWidget extends \CODERS\WidgetBase {
     const WHATSAPP_API = 'https://api.whatsapp.com/send';
     
     const TYPE_EMAIL = 'mailto';
-
     const TYPE_TELEPHONE = 'tel';
-    
     const TYPE_WHATSAPP = 'whatsapp';
+    
+    const DISPLAY_NOTHING = 0;
+    const DISPLAY_CONTACT_ONLY = 1;
+    const DISPLAY_TITLE_ONLY = 2;
+    const DISPLAY_ALL = 3;
 
     /**
      * @return string Título
@@ -30,21 +33,30 @@ final class CodersContactWidget extends \CODERS\WidgetBase {
      * @return \CodersContactWidget
      */
     protected final function registerWidgetInputs() {
-        return $this->inputRegister( 'contact',
-                    parent::TYPE_TEXT, '',
-                    __('Contacto','coders_theme_manager'))
-                ->inputRegister( 'type',
-                    parent::TYPE_SELECT, self::TYPE_EMAIL,
-                    __('Tipo','coders_theme_manager'));
+        return parent::registerWidgetInputs() //título
+                ->inputRegister( 'contact', parent::TYPE_TEXT, '',__('Contacto','coders_theme_manager'))
+                ->inputRegister( 'type', parent::TYPE_SELECT, self::TYPE_EMAIL,__('Tipo','coders_theme_manager'))
+                ->inputRegister( 'display', parent::TYPE_SELECT , self::DISPLAY_CONTACT_ONLY , __('Mostrar','coders_theme_manager') );
+    }
+    /**
+     * Si - No
+     * @return array
+     */
+    protected final function getDisplayOptions(){
+        return array(
+            self::DISPLAY_NOTHING => __('Nada (s&oacute;lo icono)', 'coders_theme_manager'),
+            self::DISPLAY_CONTACT_ONLY => __( 'S&oacute;lo contacto' , 'coders_theme_manager') ,
+            self::DISPLAY_TITLE_ONLY => __( 'S&oacute;lo t&iacute;tulo' , 'coders_theme_manager') ,
+            self::DISPLAY_ALL => __( 'T&iacute;tulo y contacto' , 'coders_theme_manager') );
     }
     /**
      * @return array
      */
     protected final function getTypeOptions(){
         return array(
-            self::TYPE_EMAIL => __( 'Email' , 'coders-contact-widget'),
-            self::TYPE_TELEPHONE => __( 'Teléfono' , 'coders-contact-widget'),
-            self::TYPE_WHATSAPP => __( 'Whatsapp' , 'coders-contact-widget'),
+            self::TYPE_EMAIL => __( 'Email' , 'coders_theme_manager'),
+            self::TYPE_TELEPHONE => __( 'Teléfono' , 'coders_theme_manager'),
+            self::TYPE_WHATSAPP => __( 'Whatsapp' , 'coders_theme_manager'),
             );
     }
     /**
@@ -109,30 +121,50 @@ final class CodersContactWidget extends \CODERS\WidgetBase {
      * @param array $instance
      * @param array $args
      */
-    function display($instance, $args = null) {
+    function display( $instance, $args = null) {
 
-        $widget = $this->inputImport( $instance );
+        //resuelto desde el método superior widget
+        //$instance = $this->inputImport( $instance );
         
-        switch( $widget ['type' ] ){
+        $display = intval($instance['display']);
+        
+        switch( $display ){
+            case self::DISPLAY_NOTHING:
+                $caption = '';
+                break;
+            case self::DISPLAY_TITLE_ONLY:
+                $caption = $instance['title'];
+                break;
+            default:
+                $caption = $instance['contact'];
+                break;
+        }
+        
+        if( $display === self::DISPLAY_ALL && !is_null($args) ){
+            //mostrando título
+            print $args['before_title'] . $instance['title'] . $args['after_title'];
+        }
+        
+        switch( $instance ['type' ] ){
             case self::TYPE_WHATSAPP:
                 print self::__HTML('a', array(
                     'href' => sprintf('%s?phone=%s' ,
                             self::WHATSAPP_API ,
-                            preg_replace('/\s+/', '',  $widget['contact'] ) ),
-                    'class' => 'icon-whatsapp',
-                ), $widget['contact']);
+                            preg_replace('/\s+/', '',  $instance['contact'] ) ),
+                    'class' => 'icon icon-whatsapp',
+                ), $caption );
                 break;
             case self::TYPE_TELEPHONE:
                 print self::__HTML('a', array(
-                    'href' => 'tel:' . preg_replace('/\s+/', '',  $widget['contact'] ),
-                    'class' => 'icon-telephone',
-                ), $widget['contact']);
+                    'href' => 'tel:' . preg_replace('/\s+/', '',  $instance['contact'] ),
+                    'class' => 'icon icon-telephone',
+                ), $caption );
                 break;
             case self::TYPE_EMAIL:
                 print self::__HTML('a', array(
-                    'href' => 'mailto:' . $widget['contact'],
-                    'class' => 'icon-email',
-                ), $widget['contact']);
+                    'href' => 'mailto:' . $instance['contact'],
+                    'class' => 'icon icon-email',
+                ), $caption );
                 break;
             default:
                 print '<!-- tipo de contacto inv&aacute;lido -->';

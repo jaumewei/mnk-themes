@@ -443,6 +443,15 @@ final class CodersThemeManager {
         }
         return TRUE;
     }
+    
+    /**
+     * @todo Un parche, mover a algúna extensión con más control aquí no debería estar
+     * @param int $post_id
+     * @param mixed $size
+     */
+    public static final function  postThumbnail( $post_id , $size = 'thumbnail' ){
+        
+    }
 }
 
 //
