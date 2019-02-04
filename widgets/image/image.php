@@ -15,6 +15,7 @@ class CodersImageWidget extends \CODERS\WidgetBase{
     const TYPE_ICON = 'icon';
     const TYPE_OVERLAY = 'overlay';
     const TYPE_BACKGROUND = 'background';
+    const TYPE_HEADER= 'header';
     
     /**
      * Lista de fotos registradas en la navegación de la galería del lightbox
@@ -65,9 +66,10 @@ class CodersImageWidget extends \CODERS\WidgetBase{
     protected final function getTypeOptions(){
         return array(
             self::TYPE_DEFAULT => __('Simple','coders_theme_manager'),
-            self::TYPE_ICON => 'Icono',
-            self::TYPE_OVERLAY => 'Superposici&oacute;n',
-            self::TYPE_BACKGROUND => 'Imagen de fondo',
+            self::TYPE_ICON => __('Icono','coders_theme_manager'),
+            self::TYPE_OVERLAY => __('Superposici&oacute;n','coders_theme_manager'),
+            self::TYPE_BACKGROUND => __('Imagen de fondo','coders_theme_manager'),
+            self::TYPE_HEADER => __('Imagen de fondo','coders_theme_manager'),
         );
     }
     /**

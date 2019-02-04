@@ -36,6 +36,7 @@ final class CodersContactWidget extends \CODERS\WidgetBase {
         return parent::registerWidgetInputs() //título
                 ->inputRegister( 'contact', parent::TYPE_TEXT, '',__('Contacto','coders_theme_manager'))
                 ->inputRegister( 'type', parent::TYPE_SELECT, self::TYPE_EMAIL,__('Tipo','coders_theme_manager'))
+                ->inputRegister( 'target', parent::TYPE_SELECT , '_self', __('Destino','coders_theme_manager'))
                 ->inputRegister( 'display', parent::TYPE_SELECT , self::DISPLAY_CONTACT_ONLY , __('Mostrar','coders_theme_manager') );
     }
     /**
@@ -151,18 +152,21 @@ final class CodersContactWidget extends \CODERS\WidgetBase {
                     'href' => sprintf('%s?phone=%s' ,
                             self::WHATSAPP_API ,
                             preg_replace('/\s+/', '',  $instance['contact'] ) ),
+                    'target' => $instance['target'],
                     'class' => 'icon icon-whatsapp',
                 ), $caption );
                 break;
             case self::TYPE_TELEPHONE:
                 print self::__HTML('a', array(
                     'href' => 'tel:' . preg_replace('/\s+/', '',  $instance['contact'] ),
+                    'target' => $instance['target'],
                     'class' => 'icon icon-telephone',
                 ), $caption );
                 break;
             case self::TYPE_EMAIL:
                 print self::__HTML('a', array(
                     'href' => 'mailto:' . $instance['contact'],
+                    'target' => $instance['target'],
                     'class' => 'icon icon-email',
                 ), $caption );
                 break;
