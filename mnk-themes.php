@@ -427,9 +427,11 @@ final class CodersThemeManager {
     /**
      * Comprueba si una clase o lista de clases está incluida en el body actual
      * @param mixed $class
+     * @param boolean $exclusive Cualquier clase de la lista que esté definida validará la  condición
      * @return boolean
      */
-    public static final function hasClass( $class ){
+    public static final function hasClass( $class , $exclusive = FALSE ){
+        
         $body_classes = get_body_class();
 
         if( !is_array( $class ) ){
@@ -437,11 +439,19 @@ final class CodersThemeManager {
         }
 
         foreach( $class as $cls ){
-            if( !in_array($cls, $body_classes)){
+            if( $exclusive && in_array($cls, $body_classes)){
+                //la búsqueda exclusiva, retorna TRUE si encuentra UNO solo de los identificadores de clase
+                return TRUE;
+            }
+            elseif( !$exclusive && !in_array($cls, $body_classes)){
+                //la búsqueda inclusiva (no-exclusiva) retorna FALSE SI NO encuentra UNO de los identificadores de clase
                 return FALSE;
             }
         }
-        return TRUE;
+
+        return $exclusive ?
+                FALSE : //si la búsqueda es exclusiva, retorna falso al no haber encontrado ninguna de las clases
+                TRUE;   //si la búsqueda es inclusiva, retorna verdadero al no haber encontrado clases faltantes
     }
     
     /**
