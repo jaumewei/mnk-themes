@@ -15,7 +15,9 @@ final class CodersSpacerWidget extends \CODERS\WidgetBase {
         return $this->inputRegister('size', parent::TYPE_NUMBER, 10,
                         __('Tamaño','coders_theme_manager'))
                 ->inputRegister('orientation', parent::TYPE_SELECT, self::ORIENTATION_HORIZONTAL,
-                        __('Orientaci&oacute;n','coders_theme_manager'));
+                        __('Orientaci&oacute;n','coders_theme_manager'))
+                ->inputRegister('class',parent::TYPE_TEXT,'',
+                        __('Clase CSS','coders_theme_manager'));
     }
     /**
      * @return string Título
@@ -50,7 +52,8 @@ final class CodersSpacerWidget extends \CODERS\WidgetBase {
                 sprintf('height:%spx',$widget['size']):
                 sprintf('width:%spx',$widget['size']);
         
-        printf('<div class="spacer orientation-%s" style="%s"></div>',
+        printf('<div class="spacer %s orientation-%s" style="%s"></div>',
+                $widget['class'],
                 $widget['orientation'],
                 $style);
     }
