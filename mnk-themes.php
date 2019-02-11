@@ -103,11 +103,12 @@ final class CodersThemeManager {
             /**
              * Comprueba si una clase o lista de clases está incluida en el body actual
              * @param mixed $class
+             * @param boolean $exclusive método de búsqueda exclusivo para retornar solo una entre varias opciones
              * @return boolean
              */
-            function coders_thememan_hasclass( $class ){
+            function coders_thememan_hasclass( $class , $exclusive = FALSE ){
                 
-                return CodersThemeManager::hasClass($class);
+                return CodersThemeManager::hasClass($class,$exclusive);
             }
         }
         
