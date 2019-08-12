@@ -13,6 +13,7 @@ use \CodersThemeManager;
  * 
  * - Otros iniciadores (logo, etc)
  * 
+ * 
  */
 class Theme extends \CODERS\Document{
     
@@ -186,6 +187,18 @@ class Theme extends \CODERS\Document{
         return in_array( $container , $ids );
     }
     /**
+     * @param string $container
+     * @return String
+     */
+    private final function getClasses( $container ){
+        
+        $blocks = $this->defineThemeClasses();
+        
+        $classes = array_key_exists($container, $blocks) ? $blocks[$container] : array();
+        
+        return $this->block_class . ( is_array($classes) ? ' ' . implode(' ',$classes) : ''  );
+    }
+    /**
      * Inicializa los componentes del tema:
      * - scripts
      * - estilos
@@ -257,6 +270,13 @@ class Theme extends \CODERS\Document{
      * @return array
      */
     protected function defineThemeIds(){
+        return array();
+    }
+    /**
+     * Genera la lista de bloques con una redefinición de clases
+     * @return array
+     */
+    protected function defineThemeClasses(){
         return array();
     }
     /**
@@ -490,14 +510,14 @@ class Theme extends \CODERS\Document{
             printf('<%s id="%s" class="%s">',
                 $this->getTag( $block_id ),
                 $block_id,
-                $this->block_class );
+                $this->getClasses( $block_id ) );
         }
         else{
             //apertura del bloque
             printf('<%s class="%s %s">',
                 $this->getTag( $block_id ),
                 $block_id,
-                $this->block_class );
+                $this->getClasses( $block_id ) );
         }
 
         if( $this->hasWrapper($block_id) ){
