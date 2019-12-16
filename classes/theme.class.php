@@ -327,6 +327,28 @@ class Theme extends \CODERS\Document{
         return CodersThemeManager::themeURL();
     }
     /**
+     * @return \CODERS\Theme
+     */
+    protected final function registerAdminStyle(){
+        
+        if(is_admin()){
+
+            $css_path = sprintf('%s/admin.css', get_stylesheet_directory());
+
+            if(file_exists($css_path)){
+
+                add_action( 'admin_enqueue_scripts' , function(){
+
+                    wp_enqueue_style(
+                            'coders-admin-css',
+                            sprintf('%s/admin.css', get_stylesheet_directory_uri()) );
+                });
+            }
+        }
+
+        return $this;
+    }
+    /**
      * @param string $content
      * @return string
      */
@@ -384,7 +406,7 @@ class Theme extends \CODERS\Document{
                     break;
             }
         }
-
+        
         return $this;
     }
     /**
@@ -675,6 +697,7 @@ class Theme extends \CODERS\Document{
      * Muestra un menú
      * @param string $menu
      * @param mixed $class
+     * @return \CODERS\Theme
      */
     public final function displayMenu( $menu , $class = '' ){
 
@@ -713,11 +736,14 @@ class Theme extends \CODERS\Document{
         else{
             //$this->docNotFound($menu);
         }
+        
+        return $this;
     }
     /**
      * Muestra una barra de widgets
      * @param string $sidebar
      * @param mixed $class Clase especial para el sidebar
+     * @return \CODER\Theme
      */
     public final function displaySidebar( $sidebar , $class = '' ){
 
@@ -748,6 +774,8 @@ class Theme extends \CODERS\Document{
         else{
             //$this->docNotFound($sidebar);
         }
+        
+        return $this;
     }
     /**
      * Muestra un bloque
