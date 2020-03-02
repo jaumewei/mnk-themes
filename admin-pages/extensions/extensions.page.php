@@ -15,11 +15,11 @@ class Extensions extends AdminPage{
     
     
     public final function getPageName() {
-        return __('Extensiones','coders_theme_manager');
+        return __('Extensiones','coders_themes');
     }
 
     public final function getMenuName() {
-        return __('Extensiones','coders_theme_manager');
+        return __('Extensiones','coders_themes');
     }
     /**
      * @return HHML

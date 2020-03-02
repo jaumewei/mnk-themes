@@ -1,6 +1,6 @@
 <?php namespace CODERS;
 
-use CodersThemeManager;
+use CodersThemes;
 
 /**
  * Plantilla para extensiones
@@ -32,7 +32,7 @@ abstract class Extension{
      * @return string
      */
     public function __toString() {
-        return CodersThemeManager::nominalize( get_class( $this ) );
+        return CodersThemes::nominalize( get_class( $this ) );
     }
     /**
      * @param string $name
@@ -74,8 +74,8 @@ abstract class Extension{
     protected final function getPath(){
         
         return sprintf( '%s/extensions/%s/' ,
-                //CodersThemeManager::themePath( ) ,
-                CodersThemeManager::pluginPath( ) ,
+                //CodersThemes::themePath( ) ,
+                CodersThemes::pluginPath( ) ,
                 strval( $this ) );
     }
     /**
@@ -166,11 +166,11 @@ abstract class Extension{
      */
     public static final function import( $extension ) {
 
-        $class = sprintf('\CODERS\Extensions\%s', CodersThemeManager::classify( $extension ) );
+        $class = sprintf('\CODERS\Extensions\%s', CodersThemes::classify( $extension ) );
 
         $component_path = sprintf('%s/extensions/%s/%s.extension.php',
-                //CodersThemeManager::themePath(),
-                CodersThemeManager::pluginPath(),
+                //CodersThemes::themePath(),
+                CodersThemes::pluginPath(),
                 strtolower($extension),
                 strtolower($extension));
 

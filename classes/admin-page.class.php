@@ -65,7 +65,7 @@ class AdminPage extends Document{
      */
     public function getSlug(){
         
-        $page =  \CodersThemeManager::nominalize($this);
+        $page =  \CodersThemes::nominalize($this);
         
         return sprintf('coders-page-%s',$page);
     }
@@ -73,13 +73,13 @@ class AdminPage extends Document{
      * @return string
      */
     public function getMenuName(){
-        return __('Coders Theme','coders_theme_manager');
+        return __('Coders Theme','coders_themes');
     }
     /**
      * @return string
      */
     public function getPageName(){
-        return __('Coders Theme Manager','coders_theme_manager');
+        return __('Coders Theme Manager','coders_themes');
     }
     /**
      * @param string $name
@@ -132,7 +132,7 @@ class AdminPage extends Document{
      */
     public function __toString() {
         
-        return \CodersThemeManager::nominalize($this);
+        return \CodersThemes::nominalize($this);
     }
     /**
      * @return \CODERS\AdminPage
@@ -251,7 +251,7 @@ class AdminPage extends Document{
 
             self::registerPage(new AdminPage());
             
-            $path = sprintf('%s/admin-pages/', \CodersThemeManager::pluginPath() );
+            $path = sprintf('%s/admin-pages/', \CodersThemes::pluginPath() );
 
             if( is_dir( $path ) && ( $pages = scandir($path) ) !== FALSE ){
 
@@ -280,7 +280,7 @@ class AdminPage extends Document{
             add_action( 'admin_enqueue_scripts', function(){
 
                 wp_enqueue_style('coders-admin-css',
-                        sprintf('%sassets/admin.css',\CodersThemeManager::pluginURL()));
+                        sprintf('%sassets/admin.css',\CodersThemes::pluginURL()));
             } );
         }
     }
@@ -292,7 +292,7 @@ class AdminPage extends Document{
     public static final function pageClass( $page ){
         
         return sprintf( '\CODERS\AdminPages\%s' ,
-                \CodersThemeManager::classify($page) );
+                \CodersThemes::classify($page) );
     }
     /**
      * Ruta de la vista de una página
@@ -302,7 +302,7 @@ class AdminPage extends Document{
     public static final function viewPath( $page ){
         
         $path = sprintf('%s/admin-pages/%s/%s.html.php',
-                \CodersThemeManager::pluginPath(),
+                \CodersThemes::pluginPath(),
                 strtolower( $page ) ,
                 strtolower( $page ) );
         
@@ -315,7 +315,7 @@ class AdminPage extends Document{
      */
     public static final function pagePath( $page ){
         return sprintf('%s/admin-pages/%s/%s.page.php',
-                \CodersThemeManager::pluginPath(),
+                \CodersThemes::pluginPath(),
                 strtolower( $page ) ,
                 strtolower( $page ) );
     }

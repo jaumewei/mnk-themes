@@ -148,10 +148,10 @@ final class PostBodyClass extends \CODERS\Extension {
                                         $post->ID,
                                         self::MBX_INPUT_NAME,
                                         true );
-                            printf('<p>%s</p>',__('Agregar aqu&iacute; las clases CSS necesarias <strong>separadas por espacios</strong> para permitir una personalizaci&oacute;n &uacute;nica del post.','coders_theme_manager'));
+                            printf('<p>%s</p>',__('Agregar aqu&iacute; las clases CSS necesarias <strong>separadas por espacios</strong> para permitir una personalizaci&oacute;n &uacute;nica del post.','coders_themes'));
                             printf('<textarea class="widefat" name="%s" placeholder="%s" >%s</textarea>',
                                     self::MBX_INPUT_NAME,
-                                    __('Clase personalizada','coders_theme_manager'),
+                                    __('Clase personalizada','coders_themes'),
                                     esc_attr($value));
                         },
                         $post_type, 'side', 'low'

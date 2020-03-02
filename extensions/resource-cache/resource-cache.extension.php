@@ -1,6 +1,6 @@
 <?php namespace CODERS\Extensions;
 
-use CodersThemeManager;
+use CodersThemes;
 
 /**
  * Descarga recursos externos a la web de CDN y terceras partes.

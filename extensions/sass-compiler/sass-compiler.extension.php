@@ -1,6 +1,6 @@
 <?php namespace CODERS\Extensions;
 
-use CodersThemeManager;
+use CodersThemes;
 
 /**
  * Compilador less
@@ -101,28 +101,28 @@ final class SassCompiler extends \CODERS\Extension{
      */
     private final function getInputPath( ){
 
-        if( \CodersThemeManager::loaded() ){
+        if( \CodersThemes::loaded() ){
 
-            $layout = \CodersThemeManager::instance()->getTheme();
+            $layout = \CodersThemes::instance()->getTheme();
 
             return sprintf('%s/scss/%s.scss',$layout->getThemePath(),$this->_input);
         }
         
-        return sprintf('%s/scss/%s.scss', CodersThemeManager::themePath(), $this->_input );
+        return sprintf('%s/scss/%s.scss', CodersThemes::themePath(), $this->_input );
     }
     /**
      * @return string
      */
     private final function getOutputPath( ){
 
-        return sprintf('%s/css/%s.scss.css', CodersThemeManager::themePath(), $this->_output );
+        return sprintf('%s/css/%s.scss.css', CodersThemes::themePath(), $this->_output );
     }
     /**
      * @return URL
      */
     private final function getOutputUrl( ){
         
-        return sprintf('%s/css/%s.scss.css', CodersThemeManager::themeURL(), $this->_output );
+        return sprintf('%s/css/%s.scss.css', CodersThemes::themeURL(), $this->_output );
     }
     /**
      * Comprueba y precompila la plantilla LESS

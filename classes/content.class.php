@@ -21,7 +21,7 @@ abstract class ContentBase extends Document{
      * @return string
      */
     public function __toString() {
-        return CodersThemeManager::nominalize( get_class( $this ) );
+        return CodersThemes::nominalize( get_class( $this ) );
     }
 
     public function init() {
@@ -38,8 +38,8 @@ abstract class ContentBase extends Document{
     protected final function getPath(){
         
         return sprintf( '%s/content-types/%s/' ,
-                //CodersThemeManager::themePath( ) ,
-                CodersThemeManager::pluginPath( ) ,
+                //CodersThemes::themePath( ) ,
+                CodersThemes::pluginPath( ) ,
                 strval( $this ) );
     }
 }

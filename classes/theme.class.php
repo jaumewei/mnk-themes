@@ -1,6 +1,6 @@
 <?php namespace CODERS;
 
-use \CodersThemeManager;
+use \CodersThemes;
 
 /**
  * Definición del Layout del tema con diversas opciones configurables.
@@ -44,6 +44,13 @@ class Theme extends \CODERS\Document{
         self::SUPPORT_POST_THUMBNAILS => array(),
     );
     /**
+     * register here teh theme extensions
+     * @var array
+     */
+    private $_extensions = array(
+        'less-compiler'
+    );
+    /**
      * @var array
      */
     private $_settings = array(
@@ -62,7 +69,8 @@ class Theme extends \CODERS\Document{
         //inicializa el tema (v2)
         $this->defineThemeComponents()      //primero registra los elementos del layout
                 ->initialize()              //luego inicializa el framework
-                ->registerThemeSetup();     //finalmente inicializa modificaciones del tema
+                ->registerThemeSetup()      //finalmente inicializa modificaciones del tema
+                ->registerExtensions();     //carga extensiones
 
         parent::__construct();
     }
@@ -75,7 +83,7 @@ class Theme extends \CODERS\Document{
         //
         $offset = strrpos( $class , 'Theme' );
         //
-        return CodersThemeManager::nominalize( substr( $class , 0 , $offset ));
+        return CodersThemes::nominalize( substr( $class , 0 , $offset ));
         //
         //return strtolower( substr( $class , 0 , $offset ) );
     }
@@ -135,7 +143,7 @@ class Theme extends \CODERS\Document{
         
         $layout_path = sprintf( '%sassets/%s.css',$this->getThemePath(),$style);
         
-        $theme_path = sprintf( '%s/%s.css',\CodersThemeManager::themePath(),$style);
+        $theme_path = sprintf( '%s/%s.css',\CodersThemes::themePath(),$style);
         
         if(file_exists($layout_path) ){
             
@@ -143,7 +151,7 @@ class Theme extends \CODERS\Document{
         }
         elseif(file_exists($theme_path)){
             
-            sprintf('%s/%s.css', \CodersThemeManager::themeURL(),$style);
+            sprintf('%s/%s.css', \CodersThemes::themeURL(),$style);
         }
 
         return '';
@@ -159,7 +167,7 @@ class Theme extends \CODERS\Document{
         
         return file_exists( $path) ?
             sprintf('%sassets/%s.js',$this->getThemeUrl(),$script) :
-            sprintf('%s/js/%s.js', \CodersThemeManager::themeURL(),$script);
+            sprintf('%s/js/%s.js', \CodersThemes::themeURL(),$script);
     }
     /**
      * @param string $block
@@ -252,10 +260,10 @@ class Theme extends \CODERS\Document{
         $sidebars = count( $this->_support[self::SUPPORT_THEME_SIDEBAR]);
 
         return array(
-            __('Plantilla responsive adaptable','coders_theme_manager'),
-            __('Estilo personalizable','coders_theme_manager'),
-            __('Imagen de portada para el Post','coders_theme_manager'),
-            sprintf(__('<b>%s</b> menus y <b>%s</b> areas de widgets','coders_theme_manager'),$menus,$sidebars),
+            __('Plantilla responsive adaptable','coders_themes'),
+            __('Estilo personalizable','coders_themes'),
+            __('Imagen de portada para el Post','coders_themes'),
+            sprintf(__('<b>%s</b> menus y <b>%s</b> areas de widgets','coders_themes'),$menus,$sidebars),
         );
     }
     /**
@@ -338,13 +346,13 @@ class Theme extends \CODERS\Document{
      */
     public final function getThemePath( $asset = NULL ){
         
-        return CodersThemeManager::themePath( $asset ) ;
+        return CodersThemes::themePath( $asset ) ;
     }
     /**
      * @return URL
      */
     public final function getThemeUrl( ){
-        return CodersThemeManager::themeURL();
+        return CodersThemes::themeURL();
     }
     /**
      * @return \CODERS\Theme
@@ -369,6 +377,106 @@ class Theme extends \CODERS\Document{
         return $this;
     }
     /**
+     * @return array
+     */
+    protected final function listExtensions(){
+        return $this->_extensions;
+    }
+    /**
+     * @param string $extension
+     * @return \CODERS\Theme
+     */
+    protected final function addExtension( $extension ){
+        
+        if( !in_array($extension, $this->_extensions)){
+            $this->_extensions[ ] = $extension;
+        }
+        
+        return $this;
+    }
+    /**
+     * @param string $extension
+     * @return \CODERS\Theme
+     */
+    protected final function removeExtension( $extension ){
+        
+        if (($key = array_search($extension, $this->_extensions)) !== false) {
+            unset($this->_extensions[$key]);
+        }        
+        
+        return $this;
+    }
+    /**
+     * @param string $extension
+     */
+    protected final function registerExtensions( ){
+        foreach( $this->_extensions as $extension ){
+            $call = sprintf('setup%sExtension', preg_replace('/[-_]/', '', $extension));
+            if(method_exists($this, $call)){
+                return $this->$call( $extension );
+            }
+        }
+        return $this;
+    }
+    /**
+     * @param string $extension
+     */
+    protected function setupLessCompilerExtension( $extension ){
+        
+        if(is_admin()){ return FALSE; }
+        //preload
+        $lessc_path = \CodersThemes::extensionPath(sprintf('%s/lessc.inc.php',$extension));
+        
+        if(file_exists($lessc_path)){
+            
+            require_once $lessc_path;
+
+            if(!class_exists('\lessc')){
+                //lessc class not found
+                return FALSE;
+            }
+            
+            //import parameters
+            $force = get_option( $extension . '-force', false);
+            $hook =  get_option( $extension . '-hook' , 'wp_head' );
+            $name =  get_option( $extension . '-name' , 'template' );
+
+            //setup
+            $compiler = new \lessc();
+            $less_path = $this->getThemePath( sprintf('less/%s.less',$name));
+            $css_path = $this->getThemePath(sprintf('css/%s.css',$name));
+            $css_url = sprintf('%s/css/%s.css',$this->getThemeUrl(),$name);
+
+            //compile
+            if(file_exists($less_path)){
+                if( $force ){
+                    $compiler->compileFile($less_path, $css_path);
+                }
+                else{
+                    $compiler->checkedCompile($less_path, $css_path);
+                }
+            }
+
+            if(file_exists($css_path)){
+                //enqueue
+                add_action( $hook , function() use($css_url,$name){
+
+                    wp_enqueue_style( 'less-'.$name , $css_url );
+                });
+                
+                return FALSE;
+            }
+            else{
+                //die($css_path);
+            }
+        }
+        else{
+            //extension not installed
+            //die( $lessc_path);
+        }
+        return FALSE;
+    }
+    /**
      * @param string $content
      * @return string
      */
@@ -378,7 +486,7 @@ class Theme extends \CODERS\Document{
         
         return file_exists($layout_path) ?
                 $layout_path :
-                sprintf( '%s/templates/%s.php', \CodersThemeManager::pluginPath(),$content );
+                sprintf( '%s/templates/%s.php', \CodersThemes::pluginPath(),$content );
     }
     /**
      * @param string $content
@@ -506,7 +614,7 @@ class Theme extends \CODERS\Document{
      * @return String
      */
     protected function textSidebarDescription(){
-        return __('Arrastra y suelta widgets aqu&iacute;','coders_theme_manager');
+        return __('Arrastra y suelta widgets aqu&iacute;','coders_themes');
     }
     /**
      * Visualiza la página
@@ -866,7 +974,7 @@ class Theme extends \CODERS\Document{
      * @param string $element
      */
     protected function docNotFound( $element ){
-        printf('<!-- [ %s ] %s -->', $element , __('no encontrado','coders_theme_manager'));
+        printf('<!-- [ %s ] %s -->', $element , __('no encontrado','coders_themes'));
     }
     /**
      * @return string Título
@@ -921,7 +1029,7 @@ class Theme extends \CODERS\Document{
             
             require_once( $path );
 
-            $class = CodersThemeManager::classify( $theme ) . 'Theme';
+            $class = CodersThemes::classify( $theme ) . 'Theme';
 
             if (is_subclass_of($class, self::class)) {
                 return new $class( );

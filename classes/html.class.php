@@ -69,7 +69,7 @@ class HTML{
      * @return String
      */
     public function __toString() {
-        \CodersThemeManager::nominalize( $this );
+        \CodersThemes::nominalize( $this );
     }
     /**
      * Parsea el contenido a HTML

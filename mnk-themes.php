@@ -1,18 +1,18 @@
 <?php
 /*******************************************************************************
- * Plugin Name: Coders Theme Manager
- * Plugin URI: https://coderstheme.org
+ * Plugin Name: Coders Themes
+ * Plugin URI: https://mnkcoders.com
  * Description: OOP theme helper to make theme-dev easy ;)
  * Version: 1.0.0
- * Author: Jaro
- * Author URI: 
+ * Author: Coder#1
+ * Author URI: https://mnkcoders.com
  * License: GPLv2 or later
- * Text Domain: coders_theme_manager
- * Class: CodersThemeManager
+ * Text Domain: coders_themes
+ * Class: CodersThemes
  * 
- * @author Jaume Llopis
+ * @author Coder#1
  ******************************************************************************/
-final class CodersThemeManager {
+final class CodersThemes {
     
     const LOAD_SCIPTS_FOOTER = true;
     
@@ -22,7 +22,7 @@ final class CodersThemeManager {
     const MEMBER_TYPE_ADMIN = 'admin';
     
     /**
-     * @var \CodersThemeManager
+     * @var \CodersThemes
      */
     private static $_instance = null;
     /**
@@ -38,14 +38,11 @@ final class CodersThemeManager {
         'html' => self::MEMBER_TYPE_CLASS,          //clase base para generar HTML
         'document' => self::MEMBER_TYPE_CLASS,      //plantilla para inicializar scripts/estilos de una vista
         'theme' => self::MEMBER_TYPE_CLASS,
-        'widget-base' => self::MEMBER_TYPE_CLASS,
-        'widget-manager' => self::MEMBER_TYPE_CLASS,
-        'extension-manager' => self::MEMBER_TYPE_CLASS,
         //'content' => self::MEMBER_TYPE_CLASS,     //post-type personalizado
         //'form' => self::MEMBER_TYPE_CLASS,        //presentación de formularios
         //'customizer' => self::MEMBER_TYPE_CLASS,    //personalizador del administrador
         'request' => self::MEMBER_TYPE_CLASS,       //captura de input GET/POST y otros
-        'extension' => self::MEMBER_TYPE_CLASS,     //iniciador/configurador de extensiones y plugins
+        //'extension' => self::MEMBER_TYPE_CLASS,     //iniciador/configurador de extensiones y plugins
         //administrador (elementos solo para administradores)
         'admin-page' => self::MEMBER_TYPE_ADMIN,    //página de administración
     );
@@ -65,25 +62,15 @@ final class CodersThemeManager {
 
         $this->_timestamp = time();
         
-        //importa librerías
-        $this->initializeFramework();
-                //de momento aqui, registrar las extensiones manualmente
-                //->registerExtension('clean-url')      //parsea a formato utf8 las urls
-                //->registerExtension( 'less-script' ) //compilador JS cliente
-                //->registerExtension( 'share-url-meta' )//logo y titulo del sitio al compartir enlaces
-                //->registerExtension( 'less-compiler' ) //compilador PHP servidor
-                //->registerExtension( 'post-body-class' ) //paginas con clase en body
-                //->registerExtension( 'theme-logo' ); //cargador del logo
-
-        //importa librerías, primero inicializa extensipones, luego el layout
-        $this->initializeComponents()           //inicializa los componentes registrados (extensiones, etc)
+        
+        $this->initializeFramework()            //importa librerías
                 ->initializeTheme( $layout )    //registra el tema y su configuración
-                ->initializeFunctions()        //Registra las funciones externas al framework
+                ->initializeFunctions()         //Registra las funciones externas al framework
                 ->initializeAdmin();            //Solo se inicializará si está en wp-admin
     }
     /**
      * 
-     * @return CodersThemeManager
+     * @return CodersThemes
      */
     private final function initializeFunctions(){
 
@@ -95,7 +82,7 @@ final class CodersThemeManager {
              */
             function coders_thememan_image( $post_id , $size = 'thumbnail' ){
                 
-                return CodersThemeManager::postThumbnail($post_id, $size);
+                return CodersThemes::postThumbnail($post_id, $size);
             }
         }
         
@@ -108,7 +95,7 @@ final class CodersThemeManager {
              */
             function coders_thememan_hasclass( $class , $exclusive = FALSE ){
                 
-                return CodersThemeManager::hasClass($class,$exclusive);
+                return CodersThemes::hasClass($class,$exclusive);
             }
         }
         
@@ -120,7 +107,7 @@ final class CodersThemeManager {
              */
             function coders_thememan_menu( $menu , $class = '' ){
                 
-                CodersThemeManager::menu($menu,$class);
+                CodersThemes::menu($menu,$class);
             }
             
         }
@@ -133,7 +120,7 @@ final class CodersThemeManager {
              */
             function coders_thememan_sidebar( $sidebar , $class = '' ){
                 
-                CodersThemeManager::sidebar($sidebar,$class);
+                CodersThemes::sidebar($sidebar,$class);
             }
             
         }
@@ -144,7 +131,7 @@ final class CodersThemeManager {
              */
             function coders_thememan_logo( ){
                 
-                CodersThemeManager::logo();
+                CodersThemes::logo();
             }
             
         }
@@ -155,7 +142,7 @@ final class CodersThemeManager {
              */
             function coders_thememan_index( $layout = null ){
                 
-                CodersThemeManager::index( $layout );
+                CodersThemes::index( $layout );
             }
             
         }
@@ -170,7 +157,7 @@ final class CodersThemeManager {
         return $this->_theme;
     }
     /**
-     * @return \ThemeCodersThemeManager
+     * @return \ThemeCodersThemes
      */
     private final function initializeFramework(){
         
@@ -208,7 +195,7 @@ final class CodersThemeManager {
         return $this;
     }
     /**
-     * @return \ThemeCodersThemeManager
+     * @return \ThemeCodersThemes
      */
     private final function initializeAdmin(){
 
@@ -218,21 +205,6 @@ final class CodersThemeManager {
             
         }
 
-        return $this;
-    }
-    /**
-     * @return \ThemeCodersThemeManager
-     */
-    private final function initializeComponents(){
-
-        if(class_exists('\CODERS\ExtensionManager')){
-            \CODERS\ExtensionManager::instance();
-        }
-        
-        if(class_exists('CODERS\WidgetManager')){
-            \CODERS\WidgetManager::instance();
-        }
-        
         return $this;
     }
     /**
@@ -247,7 +219,7 @@ final class CodersThemeManager {
     }
     /**
      * @param string $layout
-     * @return \ThemeCodersThemeManager
+     * @return \ThemeCodersThemes
      */
     private final function initializeTheme( $layout ){
         
@@ -258,6 +230,13 @@ final class CodersThemeManager {
         return $this;
     }
     /**
+     * @param string $extension
+     * @return string
+     */
+    public static final function extensionPath( $extension ){
+        return sprintf('%s/extensions/%s',self::pluginPath(),$extension);
+    }
+    /**
      * Ruta del tema (Servidor)
      * @param mixed $asset (opcional)
      * @param bool $fromChildTheme Desde el ChildTheme
@@ -265,7 +244,9 @@ final class CodersThemeManager {
      */
     public static final function themePath( $asset = NULL , $fromChildTheme = FALSE ){
         
-        $theme_path = $fromChildTheme ? get_stylesheet_directory( ) : get_template_directory();
+        $theme_path = preg_replace('/\\\\/', '/',$fromChildTheme ?
+                get_stylesheet_directory( ) :
+                get_template_directory() );
         
         if(is_null($asset)){
             $asset = '';
@@ -288,7 +269,7 @@ final class CodersThemeManager {
      * @return string
      */
     public static final function pluginPath( ){
-        return __DIR__;
+        return preg_replace('/\\\\/', '/', __DIR__);
     }
     /**
      * Ruta del framework
@@ -368,7 +349,7 @@ final class CodersThemeManager {
         return !is_null(self::$_instance) && !is_null( self::$_instance->_theme );
     }
     /**
-     * @return \CodersThemeManager
+     * @return \CodersThemes
      */
     public static final function instance(){
         
@@ -376,13 +357,13 @@ final class CodersThemeManager {
     }
     /**
      * @param string $layout
-     * @return \CodersThemeManager
+     * @return \CodersThemes
      */
     public static final function initialize( ){
 
         if(is_null(self::$_instance)){
 
-            self::$_instance = new CodersThemeManager( self::getThemeName() );
+            self::$_instance = new CodersThemes( self::getThemeName() );
         }
         
         return self::$_instance;
@@ -466,4 +447,4 @@ final class CodersThemeManager {
 }
 
 //
-CodersThemeManager::initialize();
+CodersThemes::initialize();

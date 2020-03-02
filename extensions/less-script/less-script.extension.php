@@ -1,6 +1,6 @@
 <?php namespace CODERS\Extensions;
 
-use \CodersThemeManager;
+use \CodersThemes;
 
 /**
  * Compilador less
@@ -83,14 +83,14 @@ final class LessScript extends \CODERS\Extension{
      */
     private final function getInputUrl( ){
 
-        if( CodersThemeManager::loaded() ){
+        if( CodersThemes::loaded() ){
 
-            $layout = CodersThemeManager::instance()->getTheme();
+            $layout = CodersThemes::instance()->getTheme();
 
             return sprintf('%sless/%s.less',$layout->getThemeUrl(),$this->_input);
         }
         
-        return sprintf('%s/less/%s.less', CodersThemeManager::themeURL(), $this->_input );
+        return sprintf('%s/less/%s.less', CodersThemes::themeURL(), $this->_input );
     }
     /**
      * Configurador

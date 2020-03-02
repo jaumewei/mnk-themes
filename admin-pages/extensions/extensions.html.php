@@ -6,7 +6,7 @@ $actionName = CODERS\AdminPage::ADMIN_PAGE_ACTION;
 
 ?>
 
-<h1 class="wp-heading-inline"><?php print __('Extensiones', 'coders_theme_manager') ?></h1>
+<h1 class="wp-heading-inline"><?php print __('Extensiones', 'coders_themes') ?></h1>
 
 <?php if( count($collection) ) : ?>
 
@@ -54,6 +54,6 @@ $actionName = CODERS\AdminPage::ADMIN_PAGE_ACTION;
 
 <?php else : ?>
 
-    <p><?php print __('No hay componentes disponibles', 'coders_theme_manager') ?></p>
+    <p><?php print __('No hay componentes disponibles', 'coders_themes') ?></p>
 
 <?php endif; ?>

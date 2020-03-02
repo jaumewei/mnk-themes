@@ -1,6 +1,6 @@
 <?php namespace CODERS;
 
-//use \CodersThemeManager;
+//use \CodersThemes;
 
 /**
  * Plantilla para extensiones
@@ -289,7 +289,7 @@ final class ExtensionManager {
      */
     public static final function path( $extension = null ){
         
-        $base_path = sprintf('%s/extensions/', \CodersThemeManager::pluginPath());
+        $base_path = sprintf('%s/extensions/', \CodersThemes::pluginPath());
         
         return !is_null($extension) ?
             sprintf('%s%s/%s.extension.php',$base_path,$extension,$extension) :

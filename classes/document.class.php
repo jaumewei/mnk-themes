@@ -1,6 +1,6 @@
 <?php namespace CODERS;
 
-use \CodersThemeManager;
+use \CodersThemes;
 use \CODERS\Html;
 
 /**
@@ -86,11 +86,11 @@ class Document{
 
                 if( isset($content['deps']) ){
                     wp_enqueue_script( $script_id , $content['url'] , $content['deps'] , false,
-                            \CodersThemeManager::LOAD_SCIPTS_FOOTER );
+                            \CodersThemes::LOAD_SCIPTS_FOOTER );
                 }
                 else{
                     wp_enqueue_script( $script_id , $content['url'] , array() , false,
-                            \CodersThemeManager::LOAD_SCIPTS_FOOTER );
+                            \CodersThemes::LOAD_SCIPTS_FOOTER );
                 }
             }
             
@@ -103,14 +103,14 @@ class Document{
      */
     protected function getLocalScriptUrl( $script ){
         
-        return sprintf('%sjs/%s.js', CodersThemeManager::themeURL() , $script );
+        return sprintf('%sjs/%s.js', CodersThemes::themeURL() , $script );
     }
     /**
      * @return string
      */
     protected function getLocalStyleUrl( $style ){
         
-        return sprintf('%scss/%s.css', CodersThemeManager::themeURL() , $style );
+        return sprintf('%scss/%s.css', CodersThemes::themeURL() , $style );
     }
     /**
      * Registra un meta en la cabecera
