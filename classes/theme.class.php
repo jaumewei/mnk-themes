@@ -379,7 +379,7 @@ class Theme extends \CODERS\Document{
     /**
      * @return array
      */
-    protected final function listExtensions(){
+    public final function listExtensions(){
         return $this->_extensions;
     }
     /**
@@ -476,6 +476,7 @@ class Theme extends \CODERS\Document{
         }
         return FALSE;
     }
+    
     /**
      * @param string $content
      * @return string
@@ -732,24 +733,22 @@ class Theme extends \CODERS\Document{
                 $class[] = 'portrait';
             }
             
+            $atts = array(
+                'src' => $url,
+                'class' => implode( ' ' , $class )
+            );
+            
             if( $include_meta ){
                 
-                $alt = get_post_meta( $media_id, '_wp_attachment_image_alt', true );
+                $atts['alt'] = get_post_meta( $media_id, '_wp_attachment_image_alt', true );
+                $atts['title'] = get_post_meta( $media_id, '_wp_attachment_image_alt', true );
+            }
 
-                $title = get_post_meta( $media_id, '_wp_attachment_image_alt', true );
-                
-                print HTML::img($url, array(
-                    'class' => implode( ' ' , $class ),
-                    'alt' => $alt,
-                    'title' => $title,
-                ));
-            }
-            else{
-                print HTML::img($url, array('class' => implode( ' ' , $class )));
-            }
+            print self::__HTML( 'img', $atts );
         }
-
-        print HTML::span(null,array('class'=>'empty-media'));
+        else{
+            print self::__HTML('span',array('class'=>'empty-media'));
+        }
     }
     /**
      * @return URL
@@ -768,7 +767,7 @@ class Theme extends \CODERS\Document{
      * https://codex.wordpress.org/Theme_Logo
      * 
      * @param boolean $display Muestra el logo por defecto
-     * @return HTML
+     * @return String|HTML
      */
     public function displayLogo( $display = true ){
 

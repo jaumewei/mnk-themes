@@ -40,6 +40,42 @@ class Document{
         $this->__registerAssets( $hook );
     }
     /**
+     * @param string $TAG
+     * @param array $attributes
+     * @param mixed $content
+     * @return String|HTML
+     */
+    protected static final function __HTML( $TAG , $attributes = array() , $content = NULL ){
+
+        if( isset( $attributes['class'])){
+            if(is_array($attributes['class'])){
+                $attributes['class'] = implode(' ', $attributes['class']);
+            }
+        }
+        
+        $serialized = array();
+        
+        foreach( $attributes as $var => $val ){
+            $serialized[] = sprintf('%s="%s"',$var,$val);
+        }
+        
+        if( !is_null($content) ){
+
+            if(is_object($content)){
+                $content = strval($content);
+            }
+            elseif(is_array($content)){
+                $content = implode(' ', $content);
+            }
+            
+            return sprintf('<%s %s>%s</%s>' , $TAG ,
+                    implode(' ', $serialized) , strval( $content ) ,
+                    $TAG);
+        }
+        
+        return sprintf('<%s %s />' , $TAG , implode(' ', $serialized ) );
+    }
+    /**
      * 
      * @param string $input
      * @return boolean
@@ -63,17 +99,19 @@ class Document{
         add_action( $hook , function() use( $metas, $links, $styles, $scripts ){
 
             if( !is_admin() ){
+
                 foreach( $metas as $meta_id => $atts ){
 
-                    print HTML::meta( $atts , $meta_id );
+                    print self::__HTML(
+                            'meta' ,
+                            array_merge( array('name'=>$meta_id), $atts ) );
                 }
 
                 foreach( $links as $link_id => $atts ){
                     
-                    print HTML::link(
-                            $atts['href'],
-                            $atts['type'],
-                            array_merge( $atts, array('id'=>$link_id)));
+                    print self::__HTML(
+                            'link',
+                            array_merge( array( 'id'=>$link_id) , $atts ) );
                 }
             }
 

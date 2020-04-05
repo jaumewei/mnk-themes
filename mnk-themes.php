@@ -30,21 +30,9 @@ final class CodersThemes {
      * @var array
      */
     private static $_libraries = array(
-        //interfaces
-        //'component' => self::MEMBER_TYPE_INTERFACE, //definición de un componente iniciable/configurable
-        //'response' => self::MEMBER_TYPE_INTERFACE, //definición de un componente iniciable/configurable
-        //clases
         'dictionary' => self::MEMBER_TYPE_CLASS,    //definición de datos y meta
-        'html' => self::MEMBER_TYPE_CLASS,          //clase base para generar HTML
         'document' => self::MEMBER_TYPE_CLASS,      //plantilla para inicializar scripts/estilos de una vista
         'theme' => self::MEMBER_TYPE_CLASS,
-        //'content' => self::MEMBER_TYPE_CLASS,     //post-type personalizado
-        //'form' => self::MEMBER_TYPE_CLASS,        //presentación de formularios
-        //'customizer' => self::MEMBER_TYPE_CLASS,    //personalizador del administrador
-        'request' => self::MEMBER_TYPE_CLASS,       //captura de input GET/POST y otros
-        //'extension' => self::MEMBER_TYPE_CLASS,     //iniciador/configurador de extensiones y plugins
-        //administrador (elementos solo para administradores)
-        'admin-page' => self::MEMBER_TYPE_ADMIN,    //página de administración
     );
     /**
      * @var \CODERS\Theme
@@ -199,10 +187,43 @@ final class CodersThemes {
      */
     private final function initializeAdmin(){
 
-        if(is_admin() && class_exists('CODERS\AdminPage')){
+        if (is_admin()) {
 
-            \CODERS\AdminPage::loadPages();
-            
+            add_action('admin_menu', function(){
+                add_submenu_page(
+                    'themes.php',
+                    __('Coder Themes','coders_themes'),
+                    __('Coder Themes', 'coders_themes'),
+                    'administrator',
+                    'coders-theme-manager',
+                    function(){
+                        //display
+                        printf('<h2>%s</h2><div id="coder-theme-manager"></div>',
+                                __('Coder Theme Manager','coders_themes'));
+
+
+                        //debug
+                        var_dump( CodersThemes::instance()->getTheme()->listExtensions() );
+                        
+                    }, 50);
+            });
+            add_action( 'admin_enqueue_scripts', function(){
+                $url = CodersThemes::pluginURL();
+                wp_enqueue_script( 'mnk-themes-script', sprintf('%s/assets/theme-manager.js',$url), array('jquery'), '1.0.0' );
+                wp_enqueue_style( 'mnk-themes-css', sprintf('%s/assets/theme-manager.css',$url), false, '1.0.0' );
+            } );
+            add_action( 'wp_ajax_coder_theme_extension_list',  function(){
+                
+                print json_encode(array());
+                
+                wp_die();
+            } );
+            add_action( 'wp_ajax_coder_theme_extension_update',  function(){
+                
+                print json_encode(array());
+                
+                wp_die();
+            } );
         }
 
         return $this;

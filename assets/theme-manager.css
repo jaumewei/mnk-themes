@@ -1,0 +1,13 @@
+/* extension manager styles */
+
+#coder-theme-manager{
+    
+    display: block;
+    width: 98%;
+    min-height: 100px;
+    border: 2px solid #fafafa;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 0 4px rgba(0,0,0,0.25);
+}
+
